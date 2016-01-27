@@ -1,0 +1,34 @@
+﻿<controls:MetroWindow x:Class="LiveWriterPluginManager.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+                      xmlns:local="clr-namespace:LiveWriterPluginManager.Controls"
+                      mc:Ignorable="d"
+                      Title="Live Writer Plugin Manager"
+                      Height="350"
+                      Width="525"
+                      GlowBrush="{StaticResource LiveWriterPurpleBrush}"
+                      WindowTitleBrush="{StaticResource LiveWriterPurpleBrush}"
+                      NonActiveWindowTitleBrush="MediumPurple"
+                      NonActiveGlowBrush="{x:Null}"
+                      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                      Background="{DynamicResource MaterialDesignPaper}"
+                      FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+    <Grid>
+        <dragablz:TabablzControl TextElement.Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=(TextElement.Foreground)}"
+                                 Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=Background}">
+            <dragablz:TabablzControl.InterTabController>
+                <dragablz:InterTabController />
+            </dragablz:TabablzControl.InterTabController>
+            <TabItem Header="Add">
+                <local:AddPluginControl/>
+            </TabItem>
+            <TabItem Header="Remove">
+                <local:RemovePluginControl/>
+            </TabItem>
+        </dragablz:TabablzControl>
+    </Grid>
+</controls:MetroWindow>
