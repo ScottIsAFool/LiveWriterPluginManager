@@ -4,20 +4,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:custom="http://www.galasoft.ch/mvvmlight"
+             xmlns:viewModel="clr-namespace:LiveWriterPluginManager.ViewModel"
              x:Class="LiveWriterPluginManager.Controls.RemovePluginControl"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             Background="IndianRed"
              DataContext="{Binding RemovePlugin, Source={StaticResource Locator}}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <custom:EventToCommand Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type viewModel:PluginViewModel}">
+            <Border BorderBrush="{StaticResource LiveWriterPurpleBrush}"
+                    BorderThickness="0,0,0,1">
+                <Grid Height="80">
+                    <TextBlock Text="{Binding Plugin.Name}" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
     <Grid>
-
-        
-
+        <ListView ItemsSource="{Binding Plugins}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </UserControl>

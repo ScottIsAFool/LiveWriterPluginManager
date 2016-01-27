@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -26,7 +25,6 @@ namespace LiveWriterPluginManager.Services
             {
                 return result;
             }
-
 
             try
             {

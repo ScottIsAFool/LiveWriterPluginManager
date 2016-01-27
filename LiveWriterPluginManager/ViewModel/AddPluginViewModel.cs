@@ -53,7 +53,10 @@ namespace LiveWriterPluginManager.ViewModel
                         if (!string.IsNullOrEmpty(file))
                         {
                             var plugin = await _zipService.UnzipFileAsync(file);
-                            _liveWriterService.SavePlugin(plugin);
+                            if (!string.IsNullOrEmpty(plugin?.Path))
+                            {
+                                _liveWriterService.SavePlugin(plugin);
+                            }
                         }
                     }
                     finally
