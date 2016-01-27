@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace LiveWriterPluginManager.Helpers
 {
@@ -27,6 +29,17 @@ namespace LiveWriterPluginManager.Helpers
             {
                 Directory.CreateDirectory(PluginsFolder);
             }
+        }
+
+        public static bool IsLiveWriterRunning()
+        {
+            if (!LiveWriterInstalled)
+            {
+                return false;
+            }
+
+            var process = Process.GetProcessesByName("OpenLiveWriter");
+            return process.Any();
         }
     }
 }

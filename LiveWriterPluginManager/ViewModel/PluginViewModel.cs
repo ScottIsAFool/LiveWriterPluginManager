@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using LiveWriterPluginManager.Helpers;
 using LiveWriterPluginManager.Model;
 using LiveWriterPluginManager.Services;
 
@@ -22,6 +23,11 @@ namespace LiveWriterPluginManager.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    if (AppHelper.IsLiveWriterRunning())
+                    {
+                        // TODO: Display an error message
+                        return;
+                    }
                     _liveWriterService.DeletePlugin(Plugin);
                 });
             }
