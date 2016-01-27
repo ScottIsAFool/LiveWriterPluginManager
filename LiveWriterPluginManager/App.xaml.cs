@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using LiveWriterPluginManager.Helpers;
 
 namespace LiveWriterPluginManager
 {
@@ -13,5 +9,21 @@ namespace LiveWriterPluginManager
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Startup += OnStartup;
+        }
+
+        private void OnStartup(object sender, StartupEventArgs e)
+        {
+            if (AppHelper.LiveWriterInstalled)
+            {
+                AppHelper.CreatePluginDirectory();
+            }
+            else
+            {
+                // TODO: Display some kind of message prompt
+            }
+        }
     }
 }

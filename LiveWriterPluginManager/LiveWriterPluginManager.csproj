@@ -53,6 +53,10 @@
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.8.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.9.8\lib\net20\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.0.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -107,7 +111,12 @@
     <Compile Include="Controls\RemovePluginControl.xaml.cs">
       <DependentUpon>RemovePluginControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\ContainerExtensions.cs" />
+    <Compile Include="Helpers\AppHelper.cs" />
+    <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\ZipService.cs" />
     <Compile Include="ViewModel\AddPluginViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RemovePluginViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="Controls\AddPluginControl.xaml">
@@ -162,6 +171,7 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

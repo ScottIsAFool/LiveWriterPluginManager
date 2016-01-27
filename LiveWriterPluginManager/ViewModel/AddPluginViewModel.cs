@@ -1,6 +1,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.Win32;
+using LiveWriterPluginManager.Helpers;
+using LiveWriterPluginManager.Services;
 
 namespace LiveWriterPluginManager.ViewModel
 {
@@ -18,34 +19,37 @@ namespace LiveWriterPluginManager.ViewModel
     /// </summary>
     public class AddPluginViewModel : ViewModelBase
     {
-        private readonly OpenFileDialog _openFile;
+        private readonly IZipService _zipService;
+        private readonly IFileService _fileService;
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public AddPluginViewModel()
+        public AddPluginViewModel(IZipService zipService, IFileService fileService)
         {
-            _openFile = new OpenFileDialog
-            {
-                Filter = "Zip files (*.zip)|*.zip",
-                Multiselect = false,
-                Title = "Please choose your plugin zip file"
-            };
+            _zipService = zipService;
+            _fileService = fileService;
+            CanAdd = AppHelper.LiveWriterInstalled;
         }
+
+        public bool CanAdd { get; set; } = true;
 
         public RelayCommand BrowseCommand
         {
             get
             {
-                return new RelayCommand(() =>
+                return new RelayCommand(async () =>
                 {
-                    var response = _openFile.ShowDialog();
-                    if (response ?? false)
+                    CanAdd = false;
+
+                    try
                     {
-                        using (var file = _openFile.OpenFile())
-                        {
-                            var i = file.Length;
-                        }
+                        var file = _fileService.GetZipFile();
+                        var unzippedFolder = await _zipService.UnzipFileAsync(file);
+                    }
+                    finally
+                    {
+                        CanAdd = true;
                     }
                 });
             }
@@ -57,7 +61,7 @@ namespace LiveWriterPluginManager.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    
+
                 });
             }
         }

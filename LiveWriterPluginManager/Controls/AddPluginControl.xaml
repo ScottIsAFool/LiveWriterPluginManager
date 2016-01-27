@@ -24,6 +24,7 @@
                 VerticalAlignment="Top"
                 Content="Browse for plugin"
                 Margin="0,20"
-                Command="{Binding BrowseCommand}"/>
+                Command="{Binding BrowseCommand}"
+                IsEnabled="{Binding CanAdd}"/>
     </Grid>
 </UserControl>

@@ -1,5 +1,7 @@
 using GalaSoft.MvvmLight.Ioc;
+using LiveWriterPluginManager.Services;
 using Microsoft.Practices.ServiceLocation;
+using ScottIsAFool.Windows.MvvmLight.Extensions;
 
 namespace LiveWriterPluginManager.ViewModel
 {
@@ -26,11 +28,16 @@ namespace LiveWriterPluginManager.ViewModel
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
+            
+            SimpleIoc.Default.RegisterIf<IZipService, ZipService>();
+            SimpleIoc.Default.RegisterIf<IFileService, FileService>();
 
+            SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AddPluginViewModel>();
             SimpleIoc.Default.Register<RemovePluginViewModel>();
         }
 
+        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public AddPluginViewModel AddPlugin => ServiceLocator.Current.GetInstance<AddPluginViewModel>();
         public RemovePluginViewModel RemovePlugin => ServiceLocator.Current.GetInstance<RemovePluginViewModel>();
 
