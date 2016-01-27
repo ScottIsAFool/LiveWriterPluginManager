@@ -36,6 +36,8 @@ namespace LiveWriterPluginManager.ViewModel
 
         public bool CanAdd { get; set; }
 
+        public bool IsAdding { get; set; }
+
         public RelayCommand BrowseCommand
         {
             get
@@ -43,16 +45,21 @@ namespace LiveWriterPluginManager.ViewModel
                 return new RelayCommand(async () =>
                 {
                     CanAdd = false;
+                    IsAdding = true;
 
                     try
                     {
                         var file = _fileService.GetZipFile();
-                        var plugin = await _zipService.UnzipFileAsync(file);
-                        _liveWriterService.SavePlugin(plugin);
+                        if (!string.IsNullOrEmpty(file))
+                        {
+                            var plugin = await _zipService.UnzipFileAsync(file);
+                            _liveWriterService.SavePlugin(plugin);
+                        }
                     }
                     finally
                     {
                         CanAdd = true;
+                        IsAdding = false;
                     }
                 });
             }

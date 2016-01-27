@@ -3,17 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="400"
              DataContext="{Binding AddPlugin, Source={StaticResource Locator}}">
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock TextWrapping="WrapWithOverflow">
+
+        <TextBlock TextWrapping="WrapWithOverflow"
+                   Margin="10">
             <Run Text="In order to install a plugin for Live Writer, this app requires you to have that plugin all zipped up, for instructions on how to do this, please"/>
             <Hyperlink Command="{Binding ZipInstructionsCommand}">click here.</Hyperlink>
             <Run Text="Choose your zip file, and this app will then install that plugin."/>
@@ -23,8 +25,16 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Browse for plugin"
-                Margin="0,20"
+                Margin="10,20"
                 Command="{Binding BrowseCommand}"
                 IsEnabled="{Binding CanAdd}"/>
+        
+        <Border Grid.Row="0"
+                Grid.RowSpan="2"
+                Background="#7F000000"
+                Visibility="{Binding IsAdding, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <controls:ProgressRing IsActive="{Binding IsAdding}"
+                                   Foreground="{StaticResource LiveWriterPurpleBrush}"/>
+        </Border>
     </Grid>
 </UserControl>
