@@ -30,6 +30,9 @@
             <TabItem Header="Remove">
                 <local:RemovePluginControl/>
             </TabItem>
+            <TabItem Header="About">
+                <local:AboutControl/>
+            </TabItem>
         </dragablz:TabablzControl>
     </Grid>
 </controls:MetroWindow>
