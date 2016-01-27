@@ -31,6 +31,7 @@ namespace LiveWriterPluginManager.ViewModel
             
             SimpleIoc.Default.RegisterIf<IZipService, ZipService>();
             SimpleIoc.Default.RegisterIf<IFileService, FileService>();
+            SimpleIoc.Default.RegisterIf<ILiveWriterService, LiveWriterService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AddPluginViewModel>();

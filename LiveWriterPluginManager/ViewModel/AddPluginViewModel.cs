@@ -21,18 +21,20 @@ namespace LiveWriterPluginManager.ViewModel
     {
         private readonly IZipService _zipService;
         private readonly IFileService _fileService;
+        private readonly ILiveWriterService _liveWriterService;
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public AddPluginViewModel(IZipService zipService, IFileService fileService)
+        public AddPluginViewModel(IZipService zipService, IFileService fileService, ILiveWriterService liveWriterService)
         {
             _zipService = zipService;
             _fileService = fileService;
+            _liveWriterService = liveWriterService;
             CanAdd = AppHelper.LiveWriterInstalled;
         }
 
-        public bool CanAdd { get; set; } = true;
+        public bool CanAdd { get; set; }
 
         public RelayCommand BrowseCommand
         {
@@ -45,7 +47,8 @@ namespace LiveWriterPluginManager.ViewModel
                     try
                     {
                         var file = _fileService.GetZipFile();
-                        var unzippedFolder = await _zipService.UnzipFileAsync(file);
+                        var plugin = await _zipService.UnzipFileAsync(file);
+                        _liveWriterService.SavePlugin(plugin);
                     }
                     finally
                     {

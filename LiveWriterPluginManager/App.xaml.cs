@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Principal;
+using System.Threading;
 using System.Windows;
 using LiveWriterPluginManager.Helpers;
 
@@ -23,6 +25,17 @@ namespace LiveWriterPluginManager
             else
             {
                 // TODO: Display some kind of message prompt
+            }
+
+            AppDomain myDomain = Thread.GetDomain();
+
+            myDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
+            WindowsPrincipal myPrincipal = (WindowsPrincipal)Thread.CurrentPrincipal;
+            if (!myPrincipal.IsInRole(WindowsBuiltInRole.Administrator))
+            {
+                // TODO: Show a message that it's not in administrator
+                MessageBox.Show("Not running as adming");
+                var i = 0;
             }
         }
     }
