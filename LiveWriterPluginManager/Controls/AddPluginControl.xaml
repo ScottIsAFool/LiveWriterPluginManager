@@ -5,9 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="300"
-             d:DesignWidth="300"
-             Background="SkyBlue">
-    <Grid>
-
+             d:DesignWidth="400"
+             DataContext="{Binding AddPlugin, Source={StaticResource Locator}}">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock TextWrapping="WrapWithOverflow">
+            <Run Text="In order to install a plugin for Live Writer, this app requires you to have that plugin all zipped up, for instructions on how to do this, please"/>
+            <Hyperlink Command="{Binding ZipInstructionsCommand}">click here.</Hyperlink>
+            <Run Text="Choose your zip file, and this app will then install that plugin."/>
+        </TextBlock>
+        
+        <Button Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="Browse for plugin"
+                Margin="0,20"
+                Command="{Binding BrowseCommand}"/>
     </Grid>
 </UserControl>

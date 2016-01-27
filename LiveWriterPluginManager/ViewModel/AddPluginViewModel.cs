@@ -1,4 +1,6 @@
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Microsoft.Win32;
 
 namespace LiveWriterPluginManager.ViewModel
 {
@@ -16,12 +18,48 @@ namespace LiveWriterPluginManager.ViewModel
     /// </summary>
     public class AddPluginViewModel : ViewModelBase
     {
+        private readonly OpenFileDialog _openFile;
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public AddPluginViewModel()
         {
-            
+            _openFile = new OpenFileDialog
+            {
+                Filter = "Zip files (*.zip)|*.zip",
+                Multiselect = false,
+                Title = "Please choose your plugin zip file"
+            };
+        }
+
+        public RelayCommand BrowseCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    var response = _openFile.ShowDialog();
+                    if (response ?? false)
+                    {
+                        using (var file = _openFile.OpenFile())
+                        {
+                            var i = file.Length;
+                        }
+                    }
+                });
+            }
+        }
+
+        public RelayCommand ZipInstructionsCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    
+                });
+            }
         }
     }
 }
