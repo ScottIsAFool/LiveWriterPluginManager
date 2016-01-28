@@ -61,7 +61,7 @@ namespace LiveWriterPluginManager.Services
                 return;
             }
 
-            _liveWriterPluginsRegistryKey.DeleteSubKey(plugin.Name);
+            _liveWriterPluginsRegistryKey.DeleteValue(plugin.Name, false);
 
             var file = new FileInfo(plugin.Path);
             var path = file.Directory;

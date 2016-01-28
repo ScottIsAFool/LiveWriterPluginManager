@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using LiveWriterPluginManager.Helpers;
@@ -45,9 +46,9 @@ namespace LiveWriterPluginManager.ViewModel
 
                             await _messageService.ShowMessageAsync("Plugin deleted.");
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            
+                            var i = 1;
                         }
                     }
                 });
