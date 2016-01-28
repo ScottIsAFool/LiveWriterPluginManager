@@ -20,7 +20,8 @@
                       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
                       Background="{DynamicResource MaterialDesignPaper}"
                       FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-                      DataContext="{Binding Main, Source={StaticResource Locator}}">
+                      DataContext="{Binding Main, Source={StaticResource Locator}}"
+                      Icon="Icon.ico">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <command:EventToCommand Command="{Binding LoadedCommand}" />
