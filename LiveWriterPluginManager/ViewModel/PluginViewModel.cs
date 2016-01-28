@@ -31,8 +31,7 @@ namespace LiveWriterPluginManager.ViewModel
                         // TODO: Display an error message
                         return;
                     }
-
-                    var removePlugin = await _messageService.ShowAsync("Are you sure?", "Are you sure you wish to remove this plugin?");
+                    var removePlugin = await _messageService.ShowQuestionAsync("Are you sure you wish to remove this plugin?", "Yes", "No, ignore me");
                     if (removePlugin)
                     {
                         _liveWriterService.DeletePlugin(Plugin);

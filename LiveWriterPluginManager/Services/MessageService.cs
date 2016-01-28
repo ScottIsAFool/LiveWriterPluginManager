@@ -1,32 +1,26 @@
 using System.Threading.Tasks;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
+using LiveWriterPluginManager.Controls.Messages;
+using MaterialDesignThemes.Wpf;
 
 namespace LiveWriterPluginManager.Services
 {
     public interface IMessageService
     {
-        Task<bool> ShowAsync(string title, string message);
-        void SetWindow(MetroWindow window);
+        Task<bool> ShowQuestionAsync(string question, string positive, string negative);
     }
 
     public class MessageService : IMessageService
     {
-        private MetroWindow _metroWindow;
-        public async Task<bool> ShowAsync(string title, string message)
+        public async Task<bool> ShowQuestionAsync(string question, string positive, string negative)
         {
-            var result = await _metroWindow.ShowMessageAsync(title, message, settings: new MetroDialogSettings
+            var questionControl = new QuestionControl
             {
-                AffirmativeButtonText = "Yes",
-                NegativeButtonText = "Cancel"
-            });
-
-            return result == MessageDialogResult.Affirmative;
-        }
-
-        public void SetWindow(MetroWindow window)
-        {
-            _metroWindow = window;
+                NegativeString = negative,
+                PositiveString = positive,
+                QuestionString = question
+            };
+            var result = await DialogHost.Show(questionControl);
+            return (bool)result;
         }
     }
 }

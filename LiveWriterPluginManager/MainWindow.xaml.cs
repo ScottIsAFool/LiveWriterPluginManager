@@ -1,7 +1,4 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using LiveWriterPluginManager.Services;
-
-namespace LiveWriterPluginManager
+﻿namespace LiveWriterPluginManager
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -11,12 +8,6 @@ namespace LiveWriterPluginManager
         public MainWindow()
         {
             InitializeComponent();
-
-            Loaded += (sender, args) =>
-            {
-                var message = SimpleIoc.Default.GetInstance<IMessageService>();
-                message.SetWindow(this);
-            };
         }
     }
 }
