@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using LiveWriterPluginManager.Helpers;
@@ -18,18 +19,20 @@ namespace LiveWriterPluginManager.ViewModel
         {
             get
             {
-                return new RelayCommand(() =>
+                return new RelayCommand(async () =>
                 {
                     if (!AppHelper.LiveWriterInstalled)
                     {
-                        _messageService.ShowErrorAsync("It doesn't look like you have Live Writer installed, please go to http://openlivewriter.org to download and install it.");
+                        await _messageService.ShowErrorAsync("It doesn't look like you have Live Writer installed, please go to http://openlivewriter.org to download and install it.");
                         Application.Current.Shutdown();
                         return;
                     }
 
+                    await Task.Delay(500);
+
                     if (!AppHelper.IsRunningAsAdmin())
                     {
-                        _messageService.ShowErrorAsync("In order for this app to add/remove plugins, it needs to run as Administrator, please restart the app with higher privileges");
+                        await _messageService.ShowErrorAsync("In order for this app to add/remove plugins, it needs to run as Administrator, please restart the app with higher privileges");
                     }
 
                     AppHelper.CheckForUpdates();
