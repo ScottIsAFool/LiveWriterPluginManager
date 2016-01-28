@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using System.Windows;
+﻿using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using LiveWriterPluginManager.Helpers;
@@ -32,6 +31,8 @@ namespace LiveWriterPluginManager.ViewModel
                     {
                         _messageService.ShowErrorAsync("In order for this app to add/remove plugins, it needs to run as Administrator, please restart the app with higher privileges");
                     }
+
+                    AppHelper.CheckForUpdates();
                 });
             }
         }

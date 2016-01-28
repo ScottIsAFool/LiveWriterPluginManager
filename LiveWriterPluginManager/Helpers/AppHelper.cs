@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
+using Squirrel;
 
 namespace LiveWriterPluginManager.Helpers
 {
@@ -51,6 +53,21 @@ namespace LiveWriterPluginManager.Helpers
             myDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
             var myPrincipal = (WindowsPrincipal)Thread.CurrentPrincipal;
             return myPrincipal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        public static void CheckForUpdates()
+        {
+            Task.Run(async () =>
+            {
+                const string updatePath = "https://github.com/ScottIsAFool/LiveWriterPluginManager";
+                if (!string.IsNullOrEmpty(updatePath))
+                {
+                    using (var mgr = UpdateManager.GitHubUpdateManager(updatePath))
+                    {
+                        await mgr.Result.UpdateApp();
+                    }
+                }
+            });
         }
     }
 }
