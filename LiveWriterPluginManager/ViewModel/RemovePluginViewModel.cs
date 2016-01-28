@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using LiveWriterPluginManager.Helpers;
 using LiveWriterPluginManager.Services;
 
 namespace LiveWriterPluginManager.ViewModel
@@ -17,6 +19,15 @@ namespace LiveWriterPluginManager.ViewModel
         {
             _liveWriterService = liveWriterService;
             _messageService = messageService;
+
+            Messenger.Default.Register<NotificationMessage>(this, m =>
+            {
+                if (m.Notification.Equals(AppHelper.RemovePluginMsg))
+                {
+                    var plugin = m.Sender as PluginViewModel;
+                    Plugins.Remove(plugin);
+                }
+            });
         }
 
         public ObservableCollection<PluginViewModel> Plugins { get; set; } = new ObservableCollection<PluginViewModel>();

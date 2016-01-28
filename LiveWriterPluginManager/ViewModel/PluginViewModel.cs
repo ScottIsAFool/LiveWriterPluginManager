@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using LiveWriterPluginManager.Helpers;
 using LiveWriterPluginManager.Model;
 using LiveWriterPluginManager.Services;
@@ -37,7 +38,17 @@ namespace LiveWriterPluginManager.ViewModel
                     var removePlugin = await _messageService.ShowQuestionAsync("Are you sure you wish to remove this plugin?", "Yes", "No, ignore me");
                     if (removePlugin)
                     {
-                        _liveWriterService.DeletePlugin(Plugin);
+                        try
+                        {
+                            _liveWriterService.DeletePlugin(Plugin);
+                            Messenger.Default.Send(new NotificationMessage(this, AppHelper.RemovePluginMsg));
+
+                            await _messageService.ShowMessageAsync("Plugin deleted.");
+                        }
+                        catch
+                        {
+                            
+                        }
                     }
                 });
             }

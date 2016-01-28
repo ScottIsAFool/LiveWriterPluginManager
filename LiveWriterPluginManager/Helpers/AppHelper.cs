@@ -11,6 +11,8 @@ namespace LiveWriterPluginManager.Helpers
 {
     public static class AppHelper
     {
+        public const string RemovePluginMsg = "RemovePluginMsg";
+
         static AppHelper()
         {
             LocalAppDataFolder = Path.Combine(Environment.GetEnvironmentVariable("LocalAppData"), "OpenLiveWriter");
