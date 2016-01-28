@@ -28,9 +28,10 @@ namespace LiveWriterPluginManager.ViewModel
                 {
                     if (AppHelper.IsLiveWriterRunning())
                     {
-                        // TODO: Display an error message
+                        await _messageService.ShowErrorAsync("Live Writer is currently running, please close it before trying to remove any plugins");
                         return;
                     }
+
                     var removePlugin = await _messageService.ShowQuestionAsync("Are you sure you wish to remove this plugin?", "Yes", "No, ignore me");
                     if (removePlugin)
                     {

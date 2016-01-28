@@ -7,6 +7,7 @@ namespace LiveWriterPluginManager.Services
     public interface IMessageService
     {
         Task<bool> ShowQuestionAsync(string question, string positive, string negative);
+        Task ShowErrorAsync(string errorMessage);
     }
 
     public class MessageService : IMessageService
@@ -21,6 +22,16 @@ namespace LiveWriterPluginManager.Services
             };
             var result = await DialogHost.Show(questionControl);
             return (bool)result;
+        }
+
+        public Task ShowErrorAsync(string errorMessage)
+        {
+            var errorControl = new ErrorControl
+            {
+                ErrorMessage = errorMessage
+            };
+
+            return DialogHost.Show(errorControl);
         }
     }
 }

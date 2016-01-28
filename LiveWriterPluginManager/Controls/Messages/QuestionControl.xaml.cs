@@ -1,12 +1,11 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace LiveWriterPluginManager.Controls.Messages
 {
     /// <summary>
     /// Interaction logic for QuestionControl.xaml
     /// </summary>
-    public partial class QuestionControl : UserControl
+    public partial class QuestionControl
     {
         public QuestionControl()
         {

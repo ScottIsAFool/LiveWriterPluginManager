@@ -117,6 +117,9 @@
     <Compile Include="Controls\AddPluginControl.xaml.cs">
       <DependentUpon>AddPluginControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Messages\ErrorControl.xaml.cs">
+      <DependentUpon>ErrorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Messages\QuestionControl.xaml.cs">
       <DependentUpon>QuestionControl.xaml</DependentUpon>
     </Compile>
@@ -140,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\AddPluginControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Messages\ErrorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
