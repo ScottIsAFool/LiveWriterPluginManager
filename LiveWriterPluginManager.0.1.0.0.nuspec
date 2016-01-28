@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>LiveWriterPluginManager</id>
+        <version>0.1.0.0</version>
+        <title>Live Writer Plugin Manager</title>
+        <authors>ScottIsAFool</authors>
+        <owners>scott</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Live Writer Plugin manager</description>
+    </metadata>
+    <files>
+        <file src="LiveWriterPluginManager\bin\Release\DeltaCompressionDotNet.dll" target="lib\net45\DeltaCompressionDotNet.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\DeltaCompressionDotNet.MsDelta.dll" target="lib\net45\DeltaCompressionDotNet.MsDelta.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\DeltaCompressionDotNet.PatchApi.dll" target="lib\net45\DeltaCompressionDotNet.PatchApi.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Dragablz.dll" target="lib\net45\Dragablz.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.dll" target="lib\net45\GalaSoft.MvvmLight.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.Extras.dll" target="lib\net45\GalaSoft.MvvmLight.Extras.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.Extras.pdb" target="lib\net45\GalaSoft.MvvmLight.Extras.pdb" />
+        <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.Extras.xml" target="lib\net45\GalaSoft.MvvmLight.Extras.xml" />
+        <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.Platform.dll" target="lib\net45\GalaSoft.MvvmLight.Platform.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\ICSharpCode.SharpZipLib.dll" target="lib\net45\ICSharpCode.SharpZipLib.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Ionic.Zip.dll" target="lib\net45\Ionic.Zip.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\LiveWriterPluginManager.exe" target="lib\net45\LiveWriterPluginManager.exe" />
+        <file src="LiveWriterPluginManager\bin\Release\LiveWriterPluginManager.exe.config" target="lib\net45\LiveWriterPluginManager.exe.config" />
+        <file src="LiveWriterPluginManager\bin\Release\MahApps.Metro.dll" target="lib\net45\MahApps.Metro.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\MahApps.Metro.xml" target="lib\net45\MahApps.Metro.xml" />
+        <file src="LiveWriterPluginManager\bin\Release\MaterialDesignColors.dll" target="lib\net45\MaterialDesignColors.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\MaterialDesignThemes.MahApps.dll" target="lib\net45\MaterialDesignThemes.MahApps.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\MaterialDesignThemes.Wpf.dll" target="lib\net45\MaterialDesignThemes.Wpf.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Microsoft.Practices.ServiceLocation.dll" target="lib\net45\Microsoft.Practices.ServiceLocation.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Mono.Cecil.dll" target="lib\net45\Mono.Cecil.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Mono.Cecil.Mdb.dll" target="lib\net45\Mono.Cecil.Mdb.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Mono.Cecil.Pdb.dll" target="lib\net45\Mono.Cecil.Pdb.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Mono.Cecil.Rocks.dll" target="lib\net45\Mono.Cecil.Rocks.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\NuGet.Squirrel.dll" target="lib\net45\NuGet.Squirrel.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\OpenLiveWriter.Api.dll" target="lib\net45\OpenLiveWriter.Api.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Splat.dll" target="lib\net45\Splat.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\Squirrel.dll" target="lib\net45\Squirrel.dll" />
+        <file src="LiveWriterPluginManager\bin\Release\System.Windows.Interactivity.dll" target="lib\net45\System.Windows.Interactivity.dll" />
+    </files>
+</package>

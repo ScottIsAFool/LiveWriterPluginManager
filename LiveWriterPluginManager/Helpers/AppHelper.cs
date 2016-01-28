@@ -59,12 +59,12 @@ namespace LiveWriterPluginManager.Helpers
         {
             Task.Run(async () =>
             {
-                const string updatePath = "";
+                const string updatePath = "https://github.com/ScottIsAFool/LiveWriterPluginManager";
                 if (!string.IsNullOrEmpty(updatePath))
                 {
-                    using (var mgr = new UpdateManager(updatePath))
+                    using (var mgr = UpdateManager.GitHubUpdateManager(updatePath))
                     {
-                        await mgr.UpdateApp();
+                        await mgr.Result.UpdateApp();
                     }
                 }
             });
