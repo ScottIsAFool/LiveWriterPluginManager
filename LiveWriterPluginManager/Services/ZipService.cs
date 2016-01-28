@@ -18,6 +18,13 @@ namespace LiveWriterPluginManager.Services
 
     public class ZipService : IZipService
     {
+        private readonly IMessageService _messageService;
+
+        public ZipService(IMessageService messageService)
+        {
+            _messageService = messageService;
+        }
+
         public async Task<Plugin> UnzipFileAsync(string filePath)
         {
             Plugin result = null;
@@ -55,7 +62,7 @@ namespace LiveWriterPluginManager.Services
             }
             catch (Exception ex)
             {
-                // TODO: something here
+                await _messageService.ShowErrorAsync("There was an error unpacking this zip file: " + ex.Message);
             }
 
             return result;
