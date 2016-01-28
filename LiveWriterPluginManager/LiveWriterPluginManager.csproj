@@ -125,6 +125,7 @@
     <Compile Include="Model\Plugin.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\LiveWriterService.cs" />
+    <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\ZipService.cs" />
     <Compile Include="ViewModel\AddPluginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

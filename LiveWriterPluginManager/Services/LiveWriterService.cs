@@ -34,7 +34,11 @@ namespace LiveWriterPluginManager.Services
             return await Task.Run(() =>
             {
                 var result = new List<Plugin>();
-                if (_liveWriterPluginsRegistryKey == null) return result;
+                if (_liveWriterPluginsRegistryKey == null)
+                {
+                    return result;
+                }
+
                 var pluginKeys = _liveWriterPluginsRegistryKey.GetValueNames();
                 foreach (var key in pluginKeys)
                 {
@@ -51,7 +55,7 @@ namespace LiveWriterPluginManager.Services
 
         public void DeletePlugin(Plugin plugin)
         {
-            var pluginKeys = _liveWriterPluginsRegistryKey.GetSubKeyNames();
+            var pluginKeys = _liveWriterPluginsRegistryKey.GetValueNames();
             if (!pluginKeys.Contains(plugin.Name))
             {
                 return;

@@ -17,21 +17,11 @@ namespace LiveWriterPluginManager.ViewModel
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
             
             SimpleIoc.Default.RegisterIf<IZipService, ZipService>();
             SimpleIoc.Default.RegisterIf<IFileService, FileService>();
             SimpleIoc.Default.RegisterIf<ILiveWriterService, LiveWriterService>();
+            SimpleIoc.Default.RegisterIf<IMessageService, MessageService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AddPluginViewModel>();

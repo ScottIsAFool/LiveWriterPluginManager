@@ -10,11 +10,13 @@ namespace LiveWriterPluginManager.ViewModel
     public class RemovePluginViewModel : ViewModelBase
     {
         private readonly ILiveWriterService _liveWriterService;
+        private readonly IMessageService _messageService;
         private bool _pluginsLoaded;
 
-        public RemovePluginViewModel(ILiveWriterService liveWriterService)
+        public RemovePluginViewModel(ILiveWriterService liveWriterService, IMessageService messageService)
         {
             _liveWriterService = liveWriterService;
+            _messageService = messageService;
         }
 
         public ObservableCollection<PluginViewModel> Plugins { get; set; } = new ObservableCollection<PluginViewModel>();
@@ -56,7 +58,7 @@ namespace LiveWriterPluginManager.ViewModel
             var plugins = await _liveWriterService.GetReferencedPlugins();
             foreach (var plugin in plugins)
             {
-                Plugins.Add(new PluginViewModel(plugin, _liveWriterService));
+                Plugins.Add(new PluginViewModel(plugin, _liveWriterService, _messageService));
             }
 
             _pluginsLoaded = Plugins.Any();
