@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
+using System.Threading;
 
 namespace LiveWriterPluginManager.Helpers
 {
@@ -40,6 +42,15 @@ namespace LiveWriterPluginManager.Helpers
 
             var process = Process.GetProcessesByName("OpenLiveWriter");
             return process.Any();
+        }
+
+        public static bool IsRunningAsAdmin()
+        {
+            var myDomain = Thread.GetDomain();
+
+            myDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
+            var myPrincipal = (WindowsPrincipal)Thread.CurrentPrincipal;
+            return myPrincipal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }

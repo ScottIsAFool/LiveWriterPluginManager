@@ -7,6 +7,8 @@
                       xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
                       xmlns:local="clr-namespace:LiveWriterPluginManager.Controls"
                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:command="http://www.galasoft.ch/mvvmlight"
                       mc:Ignorable="d"
                       Title="Live Writer Plugin Manager"
                       Height="350"
@@ -19,6 +21,11 @@
                       Background="{DynamicResource MaterialDesignPaper}"
                       FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
                       DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <command:EventToCommand Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <materialDesign:DialogHost>
         <Grid>
             <dragablz:TabablzControl TextElement.Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=(TextElement.Foreground)}"

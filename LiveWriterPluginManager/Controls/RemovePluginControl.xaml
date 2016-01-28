@@ -43,7 +43,8 @@
                             Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                             Height="30"
                             Width="30"
-                            Command="{Binding DeletePluginCommand}">
+                            Command="{Binding DeletePluginCommand}"
+                            IsEnabled="{Binding CanRemove}">
                         <Viewbox Stretch="Uniform"
                                  StretchDirection="DownOnly"
                                  Width="20"

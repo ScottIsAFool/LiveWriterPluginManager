@@ -20,6 +20,8 @@ namespace LiveWriterPluginManager.ViewModel
 
         public Plugin Plugin { get; set; }
 
+        public bool CanRemove => AppHelper.IsRunningAsAdmin();
+
         public RelayCommand DeletePluginCommand
         {
             get

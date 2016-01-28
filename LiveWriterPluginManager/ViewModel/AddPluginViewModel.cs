@@ -31,7 +31,7 @@ namespace LiveWriterPluginManager.ViewModel
             _zipService = zipService;
             _fileService = fileService;
             _liveWriterService = liveWriterService;
-            CanAdd = AppHelper.LiveWriterInstalled;
+            CanAdd = AppHelper.LiveWriterInstalled && AppHelper.IsRunningAsAdmin();
         }
 
         public bool CanAdd { get; set; }
