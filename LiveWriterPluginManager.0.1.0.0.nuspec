@@ -16,15 +16,12 @@
         <file src="LiveWriterPluginManager\bin\Release\Dragablz.dll" target="lib\net45\Dragablz.dll" />
         <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.dll" target="lib\net45\GalaSoft.MvvmLight.dll" />
         <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.Extras.dll" target="lib\net45\GalaSoft.MvvmLight.Extras.dll" />
-        <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.Extras.pdb" target="lib\net45\GalaSoft.MvvmLight.Extras.pdb" />
-        <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.Extras.xml" target="lib\net45\GalaSoft.MvvmLight.Extras.xml" />
         <file src="LiveWriterPluginManager\bin\Release\GalaSoft.MvvmLight.Platform.dll" target="lib\net45\GalaSoft.MvvmLight.Platform.dll" />
         <file src="LiveWriterPluginManager\bin\Release\ICSharpCode.SharpZipLib.dll" target="lib\net45\ICSharpCode.SharpZipLib.dll" />
         <file src="LiveWriterPluginManager\bin\Release\Ionic.Zip.dll" target="lib\net45\Ionic.Zip.dll" />
         <file src="LiveWriterPluginManager\bin\Release\LiveWriterPluginManager.exe" target="lib\net45\LiveWriterPluginManager.exe" />
         <file src="LiveWriterPluginManager\bin\Release\LiveWriterPluginManager.exe.config" target="lib\net45\LiveWriterPluginManager.exe.config" />
         <file src="LiveWriterPluginManager\bin\Release\MahApps.Metro.dll" target="lib\net45\MahApps.Metro.dll" />
-        <file src="LiveWriterPluginManager\bin\Release\MahApps.Metro.xml" target="lib\net45\MahApps.Metro.xml" />
         <file src="LiveWriterPluginManager\bin\Release\MaterialDesignColors.dll" target="lib\net45\MaterialDesignColors.dll" />
         <file src="LiveWriterPluginManager\bin\Release\MaterialDesignThemes.MahApps.dll" target="lib\net45\MaterialDesignThemes.MahApps.dll" />
         <file src="LiveWriterPluginManager\bin\Release\MaterialDesignThemes.Wpf.dll" target="lib\net45\MaterialDesignThemes.Wpf.dll" />
