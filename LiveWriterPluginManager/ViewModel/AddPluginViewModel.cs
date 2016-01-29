@@ -22,15 +22,17 @@ namespace LiveWriterPluginManager.ViewModel
         private readonly IZipService _zipService;
         private readonly IFileService _fileService;
         private readonly ILiveWriterService _liveWriterService;
+        private readonly IMessageService _messageService;
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public AddPluginViewModel(IZipService zipService, IFileService fileService, ILiveWriterService liveWriterService)
+        public AddPluginViewModel(IZipService zipService, IFileService fileService, ILiveWriterService liveWriterService, IMessageService messageService)
         {
             _zipService = zipService;
             _fileService = fileService;
             _liveWriterService = liveWriterService;
+            _messageService = messageService;
             CanAdd = AppHelper.LiveWriterInstalled && AppHelper.IsRunningAsAdmin();
         }
 
@@ -56,6 +58,7 @@ namespace LiveWriterPluginManager.ViewModel
                             if (!string.IsNullOrEmpty(plugin?.Path))
                             {
                                 _liveWriterService.SavePlugin(plugin);
+                                await _messageService.ShowMessageAsync("Plugin has been installed, please restart Live Writer in order to start using it.");
                             }
                         }
                     }
