@@ -26,11 +26,13 @@ namespace LiveWriterPluginManager.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AddPluginViewModel>();
             SimpleIoc.Default.Register<RemovePluginViewModel>();
+            SimpleIoc.Default.Register<AboutViewModel>();
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public AddPluginViewModel AddPlugin => ServiceLocator.Current.GetInstance<AddPluginViewModel>();
         public RemovePluginViewModel RemovePlugin => ServiceLocator.Current.GetInstance<RemovePluginViewModel>();
+        public AboutViewModel About => ServiceLocator.Current.GetInstance<AboutViewModel>();
 
         public static void Cleanup()
         {

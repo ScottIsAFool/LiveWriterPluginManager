@@ -34,7 +34,120 @@
 
             <Style TargetType="{x:Type dragablz:TabablzControl}"
                    BasedOn="{StaticResource MaterialDesignTabablzControlStyle}" />
-            
+
+            <Style TargetType="{x:Type ListViewItem}">
+                <Setter Property="Foreground"
+                        Value="{DynamicResource BlackBrush}" />
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Stretch" />
+                <Setter Property="VerticalContentAlignment"
+                        Value="Center" />
+                <Setter Property="MinHeight"
+                        Value="25" />
+                <Setter Property="Margin"
+                        Value="0" />
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource GrayBrush1}" />
+                <Setter Property="Focusable"
+                        Value="false" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                            <Border x:Name="Bd"
+                                    Background="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="True">
+                                <Grid>
+                                    <GridViewRowPresenter Columns="{TemplateBinding GridView.ColumnCollection}"
+                                                          Content="{TemplateBinding Content}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                        <GridViewRowPresenter.Resources>
+                                            <Style x:Key="{x:Type TextBlock}"
+                                                   TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Foreground"
+                                                        Value="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ListViewItem}}}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ListViewItem}}}"
+                                                                 Value="True">
+                                                        <Setter Property="Foreground"
+                                                                Value="{DynamicResource AccentSelectedColorBrush}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ListView}}}"
+                                                                 Value="False">
+                                                        <Setter Property="Foreground"
+                                                                Value="{DynamicResource GrayNormalBrush}" />
+                                                    </DataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ListView}}}"
+                                                                       Value="False" />
+                                                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ListViewItem}}}"
+                                                                       Value="True" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Foreground"
+                                                                Value="{DynamicResource AccentSelectedColorBrush}" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </GridViewRowPresenter.Resources>
+                                    </GridViewRowPresenter>
+                                    <ContentPresenter x:Name="contentPresenter"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                      Content="{TemplateBinding Content}"
+                                                      ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                      Visibility="Collapsed" />
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="GridView.ColumnCollection"
+                                         Value="{x:Null}">
+                                    <Setter Property="Visibility"
+                                            TargetName="contentPresenter"
+                                            Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="IsSelected"
+                                         Value="True">
+                                    <Setter Property="BorderBrush"
+                                            TargetName="Bd"
+                                            Value="#FF143C65" />
+                                    <Setter Property="Background"
+                                            TargetName="Bd"
+                                            Value="{DynamicResource AccentColorBrush}" />
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource AccentSelectedColorBrush}" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected"
+                                                   Value="True" />
+                                        <Condition Property="Selector.IsSelectionActive"
+                                                   Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background"
+                                            TargetName="Bd"
+                                            Value="{DynamicResource AccentColorBrush2}" />
+                                    <Setter Property="BorderBrush"
+                                            TargetName="Bd"
+                                            Value="#FF143C65" />
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource AccentSelectedColorBrush}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsEnabled"
+                                                   Value="False" />
+                                        <Condition Property="IsSelected"
+                                                   Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background"
+                                            TargetName="Bd"
+                                            Value="{DynamicResource GrayBrush7}" />
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
