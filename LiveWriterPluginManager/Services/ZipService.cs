@@ -1,12 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Ionic.Zip;
 using LiveWriterPluginManager.Helpers;
 using LiveWriterPluginManager.Model;
-using OpenLiveWriter.Api;
+using Newtonsoft.Json;
 using Task = System.Threading.Tasks.Task;
 
 namespace LiveWriterPluginManager.Services
@@ -14,6 +13,7 @@ namespace LiveWriterPluginManager.Services
     public interface IZipService
     {
         Task<Plugin> UnzipFileAsync(string filePath);
+        Task ZipFilesAsync(string[] files, string outputFile);
     }
 
     public class ZipService : IZipService
@@ -35,7 +35,7 @@ namespace LiveWriterPluginManager.Services
 
             try
             {
-            var tcs = new TaskCompletionSource<bool>();
+                var tcs = new TaskCompletionSource<bool>();
                 await Task.Run(async () =>
                 {
                     using (var zipFile = ZipFile.Read(filePath))
@@ -46,12 +46,12 @@ namespace LiveWriterPluginManager.Services
                         var extractPath = Path.Combine(AppHelper.PluginsFolder, fileName);
                         zipFile.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
 
-                        var pluginFile = await CheckExtractedFilesForPlugin(extractPath);
+                        var manifest = await ReadManifest(extractPath);
 
                         result = new Plugin
                         {
-                            Name = fileName,
-                            Path = pluginFile?.FullName
+                            Name = manifest?.Name,
+                            Path = manifest?.PluginPath
                         };
 
                         tcs.SetResult(true);
@@ -68,37 +68,24 @@ namespace LiveWriterPluginManager.Services
             return result;
         }
 
-        private async Task<FileInfo> CheckExtractedFilesForPlugin(string extractedPath)
+        public Task ZipFilesAsync(string[] files, string outputFile)
         {
-            var directory = new DirectoryInfo(extractedPath);
-            var fileTasks = directory.EnumerateFiles().Select(CheckFile).ToList();
-
-            var files = await Task.WhenAll(fileTasks);
-            var pluginFile = files.FirstOrDefault(x => x.IsLiveWriterFile);
-            return pluginFile?.File;
+            return Task.FromResult(0);
         }
 
-        private static async Task<LiveWriterFile> CheckFile(FileInfo file)
+        private static Task<Manifest> ReadManifest(string extractPath)
         {
-            return await Task.Run(() =>
+            var directory = new DirectoryInfo(extractPath);
+            var file = directory.EnumerateFiles(Manifest.ManifestFileName).FirstOrDefault();
+            if (file == null)
             {
-                var asm = Assembly.LoadFile(file.FullName);
-                var types = asm.GetTypes().ToList();
-                var writerTypes = types.Where(x => typeof(WriterPlugin).IsAssignableFrom(x)).ToList();
-                return new LiveWriterFile(file, writerTypes.Any());
-            });
-        }
-
-        private class LiveWriterFile
-        {
-            public LiveWriterFile(FileInfo file, bool isLiveWriterFile)
-            {
-                File = file;
-                IsLiveWriterFile = isLiveWriterFile;
+                return null;
             }
 
-            public bool IsLiveWriterFile { get; }
-            public FileInfo File { get; }
+            var content = File.ReadAllText(file.FullName);
+            var manifest = JsonConvert.DeserializeObject<Manifest>(content);
+            manifest.PluginPath = string.Concat(extractPath, manifest.PluginFileName);
+            return Task.FromResult(manifest);
         }
     }
 }
