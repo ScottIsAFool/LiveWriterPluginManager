@@ -41,13 +41,7 @@ namespace LiveWriterPluginManager.ViewModel
                 {
                     var filenames = _fileService.GetPackageFiles();
                     var files = filenames.Select(x => new FileViewModel(x)).ToList();
-                    if (!files.Any(x => x.Name.Equals(Manifest.ManifestFileName, StringComparison.InvariantCultureIgnoreCase)))
-                    {
-                        IsValidPackage = false;
-                        return;
-                    }
-
-                    IsValidPackage = true;
+                    IsValidPackage = files.Any(x => x.Name.Equals(Manifest.ManifestFileName, StringComparison.InvariantCultureIgnoreCase));
 
                     foreach (var file in files)
                     {
