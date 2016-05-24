@@ -13,7 +13,7 @@ namespace LiveWriterPluginManager.Services
     public interface IZipService
     {
         Task<Plugin> UnzipFileAsync(string filePath);
-        Task ZipFilesAsync(string[] files, string outputFile);
+        Task<bool> ZipFilesAsync(string[] files, string outputFile, Manifest manifest);
     }
 
     public class ZipService : IZipService
@@ -68,9 +68,38 @@ namespace LiveWriterPluginManager.Services
             return result;
         }
 
-        public Task ZipFilesAsync(string[] files, string outputFile)
+        public async Task<bool> ZipFilesAsync(string[] files, string outputFile, Manifest manifest)
         {
-            return Task.FromResult(0);
+            var manifestJson = JsonConvert.SerializeObject(manifest);
+            var tempManifestFile = $"{Path.GetTempPath()}{Manifest.ManifestFileName}";
+            if (File.Exists(tempManifestFile))
+            {
+                File.Delete(tempManifestFile);
+            }
+
+            File.WriteAllText(tempManifestFile, manifestJson);
+
+            var tcs = new TaskCompletionSource<bool>();
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var zipFile = new ZipFile())
+                    {
+                        zipFile.AddFile(tempManifestFile, "");
+                        zipFile.AddFiles(files, false, "");
+                        zipFile.Save(outputFile);
+                    }
+
+                    tcs.SetResult(true);
+                }
+                catch
+                {
+                    tcs.SetResult(false);
+                }
+            });
+
+            return await tcs.Task;
         }
 
         private static Task<Manifest> ReadManifest(string extractPath)

@@ -85,10 +85,11 @@ namespace LiveWriterPluginManager.ViewModel
                         return;
                     }
 
+                    var manifest = ManifestViewModel.GetManifest();
                     var packageFile = _fileService.ChoosePackageLocation();
                     var filePaths = Files.Select(x => x.Path).ToArray();
 
-                    await _zipService.ZipFilesAsync(filePaths, packageFile);
+                    await _zipService.ZipFilesAsync(filePaths, packageFile, manifest);
                 });
             }
         }

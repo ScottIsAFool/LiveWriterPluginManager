@@ -96,6 +96,7 @@
                 Grid.Row="2"
                 HorizontalAlignment="Right"
                 Margin="10"
-                IsEnabled="{Binding IsValidPackage}" />
+                IsEnabled="{Binding IsValidPackage}"
+                Command="{Binding CreatePackageCommand}"/>
     </Grid>
 </UserControl>
