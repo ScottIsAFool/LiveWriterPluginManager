@@ -171,6 +171,9 @@
     <Compile Include="Controls\AddPluginControl.xaml.cs">
       <DependentUpon>AddPluginControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CreatePackageControl.xaml.cs">
+      <DependentUpon>CreatePackageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Messages\ErrorControl.xaml.cs">
       <DependentUpon>ErrorControl.xaml</DependentUpon>
     </Compile>
@@ -193,6 +196,7 @@
     <Compile Include="Services\ZipService.cs" />
     <Compile Include="ViewModel\AboutViewModel.cs" />
     <Compile Include="ViewModel\AddPluginViewModel.cs" />
+    <Compile Include="ViewModel\CreatePackageViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PluginViewModel.cs" />
     <Compile Include="ViewModel\RemovePluginViewModel.cs" />
@@ -202,6 +206,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\AddPluginControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CreatePackageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

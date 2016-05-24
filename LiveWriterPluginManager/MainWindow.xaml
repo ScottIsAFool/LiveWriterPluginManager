@@ -40,6 +40,9 @@
                 <TabItem Header="Remove">
                     <local:RemovePluginControl />
                 </TabItem>
+                <TabItem Header="Create">
+                    <local:CreatePackageControl/>
+                </TabItem>
                 <TabItem Header="About">
                     <local:AboutControl />
                 </TabItem>

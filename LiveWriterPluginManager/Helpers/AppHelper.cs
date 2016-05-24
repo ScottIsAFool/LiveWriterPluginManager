@@ -13,6 +13,7 @@ namespace LiveWriterPluginManager.Helpers
     public static class AppHelper
     {
         public const string RemovePluginMsg = "RemovePluginMsg";
+        public const string RemoveFileMsg = "RemoveFileMsg";
 
         static AppHelper()
         {
