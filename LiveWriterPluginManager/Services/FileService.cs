@@ -15,7 +15,7 @@ namespace LiveWriterPluginManager.Services
         {
             var openFile = new OpenFileDialog
             {
-                Filter = "Package files (*.wlwpkg)|*.wlwpkg",
+                Filter = "Package files (*.olwpkg)|*.olwpkg",
                 Multiselect = false,
                 Title = "Please choose your plugin package file"
             };
@@ -51,7 +51,7 @@ namespace LiveWriterPluginManager.Services
         {
             var saveFile = new SaveFileDialog
             {
-                Filter = "Package files (*.wlwpkg)|*.wlwpkg",
+                Filter = "Package files (*.olwpkg)|*.olwpkg",
                 AddExtension = true,
                 Title = "Please choose where to save the package",
                 CreatePrompt = true,

@@ -67,39 +67,47 @@
             </Border>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Border Background="Transparent"
+            AllowDrop="True"
+            Drop="UIElement_OnDrop">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <StackPanel>
-            <TextBlock Text="Please choose the files that you would like to add to your package."
-                       TextWrapping="WrapWithOverflow"
-                       Margin="10" />
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Add files"
-                        HorizontalAlignment="Left"
-                        Margin="10,0,10,10"
-                        Command="{Binding AddFilesCommand}" />
-                <Button Content="Edit metadata"
-                        Margin="10,0,10,10"
-                        Command="{Binding EditMetadataCommand}"/>
-                <Button Content="Open package"
-                        Margin="10,0,10,10"
-                        Command="{Binding OpenPackageCommand}"/>
+            <StackPanel>
+                <TextBlock Text="Please choose the files that you would like to add to your package."
+                           TextWrapping="WrapWithOverflow"
+                           Margin="10" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Add files"
+                            HorizontalAlignment="Left"
+                            Margin="10,0,10,10"
+                            Command="{Binding AddFilesCommand}" />
+                    <Button Content="Edit metadata"
+                            Margin="10,0,10,10"
+                            Command="{Binding EditMetadataCommand}" />
+                    <Button Content="Open package"
+                            Margin="10,0,10,10"
+                            Command="{Binding OpenPackageCommand}" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
 
-        <ListView ItemsSource="{Binding Files}"
-                  Grid.Row="1" />
+            <ListView ItemsSource="{Binding Files}"
+                      Grid.Row="1" />
 
-        <Button Content="Create package"
-                Grid.Row="2"
-                HorizontalAlignment="Right"
-                Margin="10"
-                IsEnabled="{Binding IsValidPackage}"
-                Command="{Binding CreatePackageCommand}"/>
-    </Grid>
+            <Button Content="Create package"
+                    Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    Margin="10"
+                    IsEnabled="{Binding IsValidPackage}"
+                    Command="{Binding CreatePackageCommand}"
+                    AllowDrop="True"
+                    Drop="UIElement_OnDrop" />
+
+
+        </Grid>
+    </Border>
 </UserControl>

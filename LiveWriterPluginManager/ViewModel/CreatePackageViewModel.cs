@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -50,16 +51,21 @@ namespace LiveWriterPluginManager.ViewModel
                 return new RelayCommand(() =>
                 {
                     var filenames = _fileService.GetPackageFiles();
-                    var files = filenames.Select(x => new FileViewModel(x)).ToList();
-
-                    foreach (var file in files)
-                    {
-                        Files.Add(file);
-                    }
-
-                    RaisePropertyChanged(() => IsValidPackage);
+                    AddFiles(filenames);
                 });
             }
+        }
+
+        public void AddFiles(string[] filenames)
+        {
+            var files = filenames.Select(x => new FileViewModel(x)).ToList();
+
+            foreach (var file in files)
+            {
+                Files.Add(file);
+            }
+
+            RaisePropertyChanged(() => IsValidPackage);
         }
 
         public RelayCommand EditMetadataCommand
@@ -105,26 +111,31 @@ namespace LiveWriterPluginManager.ViewModel
                 return new RelayCommand(async () =>
                 {
                     var file = _fileService.GetZipFile();
-                    var packageDetails = await _zipService.OpenPackageForEditing(file);
-                    if (packageDetails.Item1 == null || !packageDetails.Item2.Any())
-                    {
-                        return;
-                    }
-                    ManifestViewModel = new ManifestViewModel(packageDetails.Item1);
-
-                    var files = packageDetails.Item2.Where(x => !x.Contains(Manifest.ManifestFileName)).Select(x => new FileViewModel(x));
-                    Files.Clear();
-                    foreach (var f in files)
-                    {
-                        Files.Add(f);
-                    }
-
-                    var pluginFile = Files.FirstOrDefault(x => x.Name == ManifestViewModel.PluginFileName);
-                    if (pluginFile != null)
-                    {
-                        pluginFile.IsPluginFile = true;
-                    }
+                    await OpenPackage(file);
                 });
+            }
+        }
+
+        public async Task OpenPackage(string file)
+        {
+            var packageDetails = await _zipService.OpenPackageForEditing(file);
+            if (packageDetails.Item1 == null || !packageDetails.Item2.Any())
+            {
+                return;
+            }
+            ManifestViewModel = new ManifestViewModel(packageDetails.Item1);
+
+            var files = packageDetails.Item2.Where(x => !x.Contains(Manifest.ManifestFileName)).Select(x => new FileViewModel(x));
+            Files.Clear();
+            foreach (var f in files)
+            {
+                Files.Add(f);
+            }
+
+            var pluginFile = Files.FirstOrDefault(x => x.Name == ManifestViewModel.PluginFileName);
+            if (pluginFile != null)
+            {
+                pluginFile.IsPluginFile = true;
             }
         }
     }
@@ -150,6 +161,7 @@ namespace LiveWriterPluginManager.ViewModel
         public string Name => File.Name;
         public string Path => File.FullName;
         public bool IsPluginFile { get; set; }
+        public string Extension => File.Extension;
 
         public RelayCommand RemoveFileCommand
         {

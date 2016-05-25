@@ -9,21 +9,37 @@
              d:DesignWidth="300"
              MinWidth="300"
              DataContext="{Binding CreatePackage.ManifestViewModel, Source={StaticResource Locator}}">
+    
+    <UserControl.Resources>
+        <Style TargetType="TextBox"
+               BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+            <Setter Property="Margin"
+                    Value="0,5"/>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical"
+                        Margin="10">
                 <TextBox x:Name="Name" 
-                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         wpf:TextFieldAssist.Hint="Plugin name"/>
                 <TextBox x:Name="Author"
-                         Text="{Binding Author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         wpf:TextFieldAssist.Hint="Author"/>
                 <TextBox x:Name="ProjectUrl"
-                         Text="{Binding ProjectUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding ProjectUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         wpf:TextFieldAssist.Hint="Project Url" />
                 <TextBox x:Name="TermsUrl"
-                         Text="{Binding TermsUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding TermsUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         wpf:TextFieldAssist.Hint="Terms Url" />
                 <TextBox x:Name="Version"
-                         Text="{Binding Version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding Version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         wpf:TextFieldAssist.Hint="Version" />
                 <TextBox x:Name="WriterVersion"
-                         Text="{Binding TargetWriterVersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding TargetWriterVersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         wpf:TextFieldAssist.Hint="Target Writer version" />
                 
                 <Button Content="Save"
                         Margin="10"
