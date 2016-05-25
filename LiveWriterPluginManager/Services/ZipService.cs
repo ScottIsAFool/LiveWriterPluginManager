@@ -42,7 +42,7 @@ namespace LiveWriterPluginManager.Services
                     var fileName = Path.GetFileNameWithoutExtension(filePath);
                     var extractPath = Path.Combine(AppHelper.PluginsFolder, fileName);
 
-                    var manifest = await ExtractAndReturnManifest(extractPath, fileName);
+                    var manifest = await ExtractAndReturnManifest(extractPath, filePath);
 
                     result = new Plugin
                     {
@@ -76,7 +76,7 @@ namespace LiveWriterPluginManager.Services
                 var filename = Path.GetFileNameWithoutExtension(filePath);
                 var extractPath = Path.Combine(Path.GetTempPath(), filename);
 
-                var manifest = await ExtractAndReturnManifest(filePath, extractPath);
+                var manifest = await ExtractAndReturnManifest(extractPath, filePath);
 
                 var directory = new DirectoryInfo(extractPath);
                 var files = directory.EnumerateFiles().Select(x => x.FullName).ToArray();
@@ -88,7 +88,7 @@ namespace LiveWriterPluginManager.Services
             return result;
         }
 
-        private static async Task<Manifest> ExtractAndReturnManifest(string filePath, string extractPath)
+        private static async Task<Manifest> ExtractAndReturnManifest(string extractPath, string filePath)
         {
             using (var zipFile = ZipFile.Read(filePath))
             {
