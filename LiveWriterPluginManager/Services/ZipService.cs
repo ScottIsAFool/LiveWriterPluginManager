@@ -91,6 +91,8 @@ namespace LiveWriterPluginManager.Services
                         zipFile.Save(outputFile);
                     }
 
+                    File.Delete(tempManifestFile);
+
                     tcs.SetResult(true);
                 }
                 catch
