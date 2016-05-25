@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using LiveWriterPluginManager.Controls;
 using LiveWriterPluginManager.Controls.Messages;
 using MaterialDesignThemes.Wpf;
 
@@ -9,6 +10,7 @@ namespace LiveWriterPluginManager.Services
         Task<bool> ShowQuestionAsync(string question, string positive, string negative);
         Task ShowErrorAsync(string errorMessage);
         Task ShowMessageAsync(string message);
+        Task ShowMetadataAsync();
     }
 
     public class MessageService : IMessageService
@@ -43,6 +45,13 @@ namespace LiveWriterPluginManager.Services
             };
 
             return DialogHost.Show(infoControl);
+        }
+
+        public Task ShowMetadataAsync()
+        {
+            var metadataControl = new MetadataControl();
+
+            return DialogHost.Show(metadataControl);
         }
     }
 }

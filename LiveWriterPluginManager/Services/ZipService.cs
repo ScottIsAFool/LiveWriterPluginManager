@@ -1,12 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Ionic.Zip;
 using LiveWriterPluginManager.Helpers;
 using LiveWriterPluginManager.Model;
-using OpenLiveWriter.Api;
+using Newtonsoft.Json;
 using Task = System.Threading.Tasks.Task;
 
 namespace LiveWriterPluginManager.Services
@@ -14,6 +13,8 @@ namespace LiveWriterPluginManager.Services
     public interface IZipService
     {
         Task<Plugin> UnzipFileAsync(string filePath);
+        Task<Tuple<Manifest, string[]>> OpenPackageForEditing(string filePath);
+        Task<bool> ZipFilesAsync(string[] files, string outputFile, Manifest manifest);
     }
 
     public class ZipService : IZipService
@@ -35,27 +36,21 @@ namespace LiveWriterPluginManager.Services
 
             try
             {
-            var tcs = new TaskCompletionSource<bool>();
+                var tcs = new TaskCompletionSource<bool>();
                 await Task.Run(async () =>
                 {
-                    using (var zipFile = ZipFile.Read(filePath))
+                    var fileName = Path.GetFileNameWithoutExtension(filePath);
+                    var extractPath = Path.Combine(AppHelper.PluginsFolder, fileName);
+
+                    var manifest = await ExtractAndReturnManifest(extractPath, fileName);
+
+                    result = new Plugin
                     {
-                        zipFile.FlattenFoldersOnExtract = true;
-                        var fileName = Path.GetFileNameWithoutExtension(filePath);
+                        Name = manifest?.Name,
+                        Path = manifest?.PluginPath
+                    };
 
-                        var extractPath = Path.Combine(AppHelper.PluginsFolder, fileName);
-                        zipFile.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
-
-                        var pluginFile = await CheckExtractedFilesForPlugin(extractPath);
-
-                        result = new Plugin
-                        {
-                            Name = fileName,
-                            Path = pluginFile?.FullName
-                        };
-
-                        tcs.SetResult(true);
-                    }
+                    tcs.SetResult(true);
                 });
 
                 await tcs.Task;
@@ -68,37 +63,92 @@ namespace LiveWriterPluginManager.Services
             return result;
         }
 
-        private async Task<FileInfo> CheckExtractedFilesForPlugin(string extractedPath)
+        public async Task<Tuple<Manifest, string[]>> OpenPackageForEditing(string filePath)
         {
-            var directory = new DirectoryInfo(extractedPath);
-            var fileTasks = directory.EnumerateFiles().Select(CheckFile).ToList();
-
-            var files = await Task.WhenAll(fileTasks);
-            var pluginFile = files.FirstOrDefault(x => x.IsLiveWriterFile);
-            return pluginFile?.File;
-        }
-
-        private static async Task<LiveWriterFile> CheckFile(FileInfo file)
-        {
-            return await Task.Run(() =>
+            if (string.IsNullOrEmpty(filePath))
             {
-                var asm = Assembly.LoadFile(file.FullName);
-                var types = asm.GetTypes().ToList();
-                var writerTypes = types.Where(x => typeof(WriterPlugin).IsAssignableFrom(x)).ToList();
-                return new LiveWriterFile(file, writerTypes.Any());
-            });
-        }
-
-        private class LiveWriterFile
-        {
-            public LiveWriterFile(FileInfo file, bool isLiveWriterFile)
-            {
-                File = file;
-                IsLiveWriterFile = isLiveWriterFile;
+                return new Tuple<Manifest, string[]>(new Manifest(), new string[0]);
             }
 
-            public bool IsLiveWriterFile { get; }
-            public FileInfo File { get; }
+            var tcs = new TaskCompletionSource<Tuple<Manifest, string[]>>();
+            await Task.Run(async () =>
+            {
+                var filename = Path.GetFileNameWithoutExtension(filePath);
+                var extractPath = Path.Combine(Path.GetTempPath(), filename);
+
+                var manifest = await ExtractAndReturnManifest(filePath, extractPath);
+
+                var directory = new DirectoryInfo(extractPath);
+                var files = directory.EnumerateFiles().Select(x => x.FullName).ToArray();
+
+                tcs.SetResult(new Tuple<Manifest, string[]>(manifest, files));
+            });
+
+            var result = await tcs.Task;
+            return result;
+        }
+
+        private static async Task<Manifest> ExtractAndReturnManifest(string filePath, string extractPath)
+        {
+            using (var zipFile = ZipFile.Read(filePath))
+            {
+                zipFile.FlattenFoldersOnExtract = true;
+                zipFile.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
+            }
+
+            var manifest = await ReadManifest(extractPath);
+            return manifest;
+        }
+
+        public async Task<bool> ZipFilesAsync(string[] files, string outputFile, Manifest manifest)
+        {
+            var manifestJson = JsonConvert.SerializeObject(manifest);
+            var tempManifestFile = $"{Path.GetTempPath()}{Manifest.ManifestFileName}";
+            if (File.Exists(tempManifestFile))
+            {
+                File.Delete(tempManifestFile);
+            }
+
+            File.WriteAllText(tempManifestFile, manifestJson);
+
+            var tcs = new TaskCompletionSource<bool>();
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var zipFile = new ZipFile())
+                    {
+                        zipFile.AddFile(tempManifestFile, "");
+                        zipFile.AddFiles(files, false, "");
+                        zipFile.Save(outputFile);
+                    }
+
+                    File.Delete(tempManifestFile);
+
+                    tcs.SetResult(true);
+                }
+                catch
+                {
+                    tcs.SetResult(false);
+                }
+            });
+
+            return await tcs.Task;
+        }
+
+        private static Task<Manifest> ReadManifest(string extractPath)
+        {
+            var directory = new DirectoryInfo(extractPath);
+            var file = directory.EnumerateFiles(Manifest.ManifestFileName).FirstOrDefault();
+            if (file == null)
+            {
+                return null;
+            }
+
+            var content = File.ReadAllText(file.FullName);
+            var manifest = JsonConvert.DeserializeObject<Manifest>(content);
+            manifest.PluginPath = string.Concat(extractPath, "\\", manifest.PluginFileName);
+            return Task.FromResult(manifest);
         }
     }
 }

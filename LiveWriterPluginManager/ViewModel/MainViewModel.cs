@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using LiveWriterPluginManager.Helpers;
 using LiveWriterPluginManager.Services;
+using OpenLiveWriter.Api;
+using Task = System.Threading.Tasks.Task;
 
 namespace LiveWriterPluginManager.ViewModel
 {
@@ -21,6 +22,7 @@ namespace LiveWriterPluginManager.ViewModel
             {
                 return new RelayCommand(async () =>
                 {
+                    WriterPlugin plugin = null;
                     if (!AppHelper.LiveWriterInstalled)
                     {
                         await _messageService.ShowErrorAsync("It doesn't look like you have Live Writer installed, please go to http://openlivewriter.org to download and install it.");
