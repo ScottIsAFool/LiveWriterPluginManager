@@ -113,7 +113,7 @@ namespace LiveWriterPluginManager.Services
 
             var content = File.ReadAllText(file.FullName);
             var manifest = JsonConvert.DeserializeObject<Manifest>(content);
-            manifest.PluginPath = string.Concat(extractPath, manifest.PluginFileName);
+            manifest.PluginPath = string.Concat(extractPath, "\\", manifest.PluginFileName);
             return Task.FromResult(manifest);
         }
     }

@@ -89,7 +89,11 @@ namespace LiveWriterPluginManager.ViewModel
                     var packageFile = _fileService.ChoosePackageLocation();
                     var filePaths = Files.Select(x => x.Path).ToArray();
 
-                    await _zipService.ZipFilesAsync(filePaths, packageFile, manifest);
+                    if (await _zipService.ZipFilesAsync(filePaths, packageFile, manifest))
+                    {
+                        Files.Clear();
+                        ManifestViewModel = new ManifestViewModel(new Manifest());
+                    }
                 });
             }
         }
