@@ -13,6 +13,7 @@ namespace LiveWriterPluginManager.Services
     public interface IZipService
     {
         Task<Plugin> UnzipFileAsync(string filePath);
+        Task<Tuple<Manifest, string[]>> OpenPackageForEditing(string filePath);
         Task<bool> ZipFilesAsync(string[] files, string outputFile, Manifest manifest);
     }
 
@@ -38,24 +39,18 @@ namespace LiveWriterPluginManager.Services
                 var tcs = new TaskCompletionSource<bool>();
                 await Task.Run(async () =>
                 {
-                    using (var zipFile = ZipFile.Read(filePath))
+                    var fileName = Path.GetFileNameWithoutExtension(filePath);
+                    var extractPath = Path.Combine(AppHelper.PluginsFolder, fileName);
+
+                    var manifest = await ExtractAndReturnManifest(extractPath, fileName);
+
+                    result = new Plugin
                     {
-                        zipFile.FlattenFoldersOnExtract = true;
-                        var fileName = Path.GetFileNameWithoutExtension(filePath);
+                        Name = manifest?.Name,
+                        Path = manifest?.PluginPath
+                    };
 
-                        var extractPath = Path.Combine(AppHelper.PluginsFolder, fileName);
-                        zipFile.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
-
-                        var manifest = await ReadManifest(extractPath);
-
-                        result = new Plugin
-                        {
-                            Name = manifest?.Name,
-                            Path = manifest?.PluginPath
-                        };
-
-                        tcs.SetResult(true);
-                    }
+                    tcs.SetResult(true);
                 });
 
                 await tcs.Task;
@@ -66,6 +61,43 @@ namespace LiveWriterPluginManager.Services
             }
 
             return result;
+        }
+
+        public async Task<Tuple<Manifest, string[]>> OpenPackageForEditing(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return new Tuple<Manifest, string[]>(new Manifest(), new string[0]);
+            }
+
+            var tcs = new TaskCompletionSource<Tuple<Manifest, string[]>>();
+            await Task.Run(async () =>
+            {
+                var filename = Path.GetFileNameWithoutExtension(filePath);
+                var extractPath = Path.Combine(Path.GetTempPath(), filename);
+
+                var manifest = await ExtractAndReturnManifest(filePath, extractPath);
+
+                var directory = new DirectoryInfo(extractPath);
+                var files = directory.EnumerateFiles().Select(x => x.FullName).ToArray();
+
+                tcs.SetResult(new Tuple<Manifest, string[]>(manifest, files));
+            });
+
+            var result = await tcs.Task;
+            return result;
+        }
+
+        private static async Task<Manifest> ExtractAndReturnManifest(string filePath, string extractPath)
+        {
+            using (var zipFile = ZipFile.Read(filePath))
+            {
+                zipFile.FlattenFoldersOnExtract = true;
+                zipFile.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
+            }
+
+            var manifest = await ReadManifest(extractPath);
+            return manifest;
         }
 
         public async Task<bool> ZipFilesAsync(string[] files, string outputFile, Manifest manifest)

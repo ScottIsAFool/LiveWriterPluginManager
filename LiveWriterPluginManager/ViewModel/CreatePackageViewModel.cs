@@ -97,6 +97,36 @@ namespace LiveWriterPluginManager.ViewModel
                 });
             }
         }
+
+        public RelayCommand OpenPackageCommand
+        {
+            get
+            {
+                return new RelayCommand(async () =>
+                {
+                    var file = _fileService.GetZipFile();
+                    var packageDetails = await _zipService.OpenPackageForEditing(file);
+                    if (packageDetails.Item1 == null || !packageDetails.Item2.Any())
+                    {
+                        return;
+                    }
+                    ManifestViewModel = new ManifestViewModel(packageDetails.Item1);
+
+                    var files = packageDetails.Item2.Where(x => !x.Contains(Manifest.ManifestFileName)).Select(x => new FileViewModel(x));
+                    Files.Clear();
+                    foreach (var f in files)
+                    {
+                        Files.Add(f);
+                    }
+
+                    var pluginFile = Files.FirstOrDefault(x => x.Name == ManifestViewModel.PluginFileName);
+                    if (pluginFile != null)
+                    {
+                        pluginFile.IsPluginFile = true;
+                    }
+                });
+            }
+        }
     }
 
     public class FileViewModel : ViewModelBase
@@ -157,6 +187,7 @@ namespace LiveWriterPluginManager.ViewModel
             TermsUrl = _manifest.TermsUrl;
             Version = _manifest.Version;
             TargetWriterVersion = _manifest.TargetWriterVersion;
+            PluginFileName = _manifest.PluginFileName;
 
             Messenger.Default.Register<NotificationMessage>(this, m =>
             {
@@ -175,6 +206,7 @@ namespace LiveWriterPluginManager.ViewModel
         public string TermsUrl { get; set; }
         public string Version { get; set; }
         public string TargetWriterVersion { get; set; }
+        public string PluginFileName { get; set; }
 
         public bool PluginFileSet => !string.IsNullOrEmpty(_manifest?.PluginFileName);
 
