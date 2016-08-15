@@ -31,6 +31,7 @@
         <file src="LiveWriterPluginManager\bin\Release\Mono.Cecil.Pdb.dll" target="lib\net45\Mono.Cecil.Pdb.dll" />
         <file src="LiveWriterPluginManager\bin\Release\Mono.Cecil.Rocks.dll" target="lib\net45\Mono.Cecil.Rocks.dll" />
         <file src="LiveWriterPluginManager\bin\Release\NuGet.Squirrel.dll" target="lib\net45\NuGet.Squirrel.dll" />
+		<file src="LiveWriterPluginManager\bin\Release\Newtonsoft.Json.dll" target="lib\net45\Newtonsoft.Json.dll" />
         <file src="LiveWriterPluginManager\bin\Release\OpenLiveWriter.Api.dll" target="lib\net45\OpenLiveWriter.Api.dll" />
         <file src="LiveWriterPluginManager\bin\Release\Splat.dll" target="lib\net45\Splat.dll" />
         <file src="LiveWriterPluginManager\bin\Release\Squirrel.dll" target="lib\net45\Squirrel.dll" />
