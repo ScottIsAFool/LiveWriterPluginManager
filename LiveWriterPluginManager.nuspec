@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>LiveWriterPluginManager</id>
-        <version>0.2.0.0</version>
+        <version>0.2.0.2</version>
         <title>Live Writer Plugin Manager</title>
         <authors>ScottIsAFool</authors>
         <owners>scott</owners>
